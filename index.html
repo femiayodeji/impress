@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+        body{
+        }
+        #paper{
+            box-shadow: 5px 5px 5px silver;
+        }
+        .form{
+            margin: 20px;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="form">
+        <input type="text" id="bearer-name" value="Femi Ayodeji">
+        <a id="save-as-image" target="_blank"><button>Save</button></a>
+    </div>
+    <canvas width="1200px" height="800px" id="paper">
+        
+    </canvas>
+
+    <script type="text/javascript">
+        // create canvas
+        var canvas = document.getElementById("paper");
+        context = canvas.getContext("2d");
+
+        createCertificate();
+
+        //get certificate bearer name
+        var bearerName = document.getElementById("bearer-name");
+        //listen to change of bearer name event
+        bearerName.addEventListener("keyup", (e) => {
+            e.preventDefault();
+            createCertificate();            
+        });
+
+        //get save as image button
+        var saveAsImageBtn = document.getElementById("save-as-image");
+        //listen to save as image button click event
+        saveAsImageBtn.addEventListener("click", (e) => {
+            saveAsImage();            
+        });
+
+        function createCertificate() {
+            if(canvas){
+                canvas.height = 800;
+                canvas.width = 1200;
+                var background = new Image();
+                background.src = "image/paper.jpg";
+
+                background.onload = function(){
+                    context.drawImage(background,0,0);
+                    context.font = "40px Script MT";
+                    context.textAlign = "center";
+                    context.fillText(bearerName.value,canvas.width/2.08,439);
+                }                
+            }
+        }
+
+        function saveAsImage(){
+            var dataURL = canvas.toDataURL('image/png');
+            saveAsImageBtn.href = dataURL;
+            saveAsImageBtn.download = "certificate.png";
+            // saveAsImageBtn.click();
+        }
+    </script>
+  </body>
+</html>
